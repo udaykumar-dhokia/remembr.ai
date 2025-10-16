@@ -17,9 +17,19 @@ class PatientDAO {
 
   async updateMemory(patientId: string, memoryId: string) {
     const patient = await Patient.findById(patientId);
-    await patient.updateOne({
+    await patient?.updateOne({
       $push: { memories: memoryId },
     });
+  }
+
+  async getAllByDoctorId(id: string) {
+    const patients = await Patient.find({ doctor: id });
+    return patients;
+  }
+
+  async deletePatient(id: string) {
+    const deletedPatient = await Patient.findByIdAndDelete(id);
+    return deletedPatient;
   }
 }
 

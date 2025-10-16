@@ -3,12 +3,15 @@ import { nanoid } from "nanoid";
 import memoryDao from "../../memory/memory.dao";
 import patientDao from "../patient/patient.dao";
 import image from "../../../utils/image";
+import HttpStatus from "../../../utils/httpStatus";
 
 const DoctorController = {
   uploadMemory: async (req, res) => {
     const { doctor, patient, text } = req.body;
     if (!doctor || !patient || !text) {
-      return res.status(403).json({ message: "Missing required fields." });
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "Missing required fields." });
     }
     try {
       const vectorId = nanoid(7);
@@ -23,13 +26,31 @@ const DoctorController = {
       const urls = await image.upload(req.files, patient);
       await memoryDao.update(urls, memory);
 
-      return res.status(200).json({
+      return res.status(HttpStatus.OK).json({
         message: "Embeddings generated successfully",
         memory,
         pineconeEmbed,
       });
     } catch (error) {
-      res.status(500).json({ message: "Interval server error." });
+      res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "Interval server error." });
+    }
+  },
+  fetchPatients: async (req, res) => {
+    const id = req.query.id;
+    if (!id) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "Missing required fields." });
+    }
+    try {
+      const patients = await patientDao.getAllByDoctorId(id);
+      return res.status(HttpStatus.OK).json({ patients });
+    } catch (error) {
+      res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "Interval server error." });
     }
   },
 };

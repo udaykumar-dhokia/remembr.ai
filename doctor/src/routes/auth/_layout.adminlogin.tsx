@@ -27,9 +27,8 @@ function AdminLogin() {
         email: email,
         password: password,
       }
-      const user = await axiosInstance.post('/auth/doctor/login', payload)
+      await axiosInstance.post('/auth/doctor/login', payload)
       navigate({ to: '/admin/dashboard' })
-      console.log(user)
     } catch (error: any) {
       setError(error.response.data.message)
     } finally {

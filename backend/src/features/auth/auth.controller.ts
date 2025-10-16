@@ -18,7 +18,7 @@ const AuthController = {
       }
       const hashedPasword = await hash.hashPasword(password);
       const user = await doctorDao.createUser(name, email, hashedPasword);
-      const token = jwt.generate(user._id.toString());
+      const token = await jwt.generate(user._id.toString());
       res.cookie("token", token, cookieOptions);
       return res
         .status(200)

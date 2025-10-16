@@ -1,8 +1,9 @@
 import { AdminSidebar } from '@/components/custom/AdminSidebar'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { setAdmin } from '@/store/slices/admin.slice'
+import { setPatients } from '@/store/slices/patient.slice'
 import { store } from '@/store/store'
-import { persistAdmin } from '@/utils/auth'
+import { persistAdmin, persistPatients } from '@/utils/auth'
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/admin/_layout')({
@@ -13,6 +14,8 @@ export const Route = createFileRoute('/admin/_layout')({
         to: '/auth/adminlogin',
       })
     }
+    const patients = await persistPatients(admin._id)
+    store.dispatch(setPatients(patients))
     store.dispatch(setAdmin(admin))
   },
   component: AdminLayout,
@@ -23,7 +26,7 @@ function AdminLayout() {
     <>
       <SidebarProvider>
         <AdminSidebar />
-        <main>
+        <main className="w-full">
           <SidebarTrigger />
           <Outlet />
         </main>

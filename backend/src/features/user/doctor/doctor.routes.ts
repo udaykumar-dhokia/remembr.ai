@@ -1,12 +1,13 @@
 import express from "express";
 import upload from "../../../config/multr.config";
 import DoctorController from "./doctor.controller";
-const rounter = express.Router();
+const router = express.Router();
 
-rounter.post(
+router.post(
   "/upload-memory",
   upload.array("images", 5),
   DoctorController.uploadMemory
 );
+router.get("/get-patients", DoctorController.fetchPatients);
 
-export default rounter;
+export default router;

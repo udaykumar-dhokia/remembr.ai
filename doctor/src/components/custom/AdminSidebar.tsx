@@ -1,12 +1,4 @@
-import {
-  Calendar,
-  ChevronUp,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-  User2,
-} from 'lucide-react'
+import { Calendar, ChevronUp, Home, Inbox, Settings, User2 } from 'lucide-react'
 
 import {
   Sidebar,
@@ -27,12 +19,12 @@ import {
 } from '@radix-ui/react-dropdown-menu'
 import type { RootState } from '@/store/store'
 import { useSelector } from 'react-redux'
+import { Link } from '@tanstack/react-router'
 
-// Menu items.
 const items = [
   {
-    title: 'Home',
-    url: '#',
+    title: 'Patients',
+    url: '/admin/dashboard',
     icon: Home,
   },
   {
@@ -44,11 +36,6 @@ const items = [
     title: 'Calendar',
     url: '#',
     icon: Calendar,
-  },
-  {
-    title: 'Search',
-    url: '#',
-    icon: Search,
   },
   {
     title: 'Settings',
@@ -71,10 +58,10 @@ export function AdminSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link to={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -88,7 +75,7 @@ export function AdminSidebar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> {admin!.user.name}
+                  <User2 /> {admin!.name}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>

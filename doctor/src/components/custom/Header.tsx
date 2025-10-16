@@ -66,16 +66,18 @@ export default function Header() {
 
             <div className="flex items-center gap-4">
               <div className="sm:flex sm:gap-4">
-                <Link to="/auth/login">
+                <Link to="/auth/adminlogin">
                   <Button className="rounded-none bg-black px-5 py-2.5 text-sm font-medium text-white shadow-sm cursor-pointer">
                     Login
                   </Button>
                 </Link>
 
                 <div className="hidden sm:flex">
-                  <Button className="rounded-none bg-gray-100 px-5 py-2.5 text-sm font-medium text-black cursor-pointer">
-                    Register
-                  </Button>
+                  <Link to="/auth/adminregister">
+                    <Button className="rounded-none bg-gray-100 px-5 py-2.5 text-sm font-medium text-black cursor-pointer">
+                      Register
+                    </Button>
+                  </Link>
                 </div>
               </div>
 
