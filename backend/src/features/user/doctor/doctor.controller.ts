@@ -27,11 +27,11 @@ const DoctorController = {
       await memoryDao.update(urls, memory);
 
       return res.status(HttpStatus.OK).json({
-        message: "Embeddings generated successfully",
+        message: "Memory recorded successfully",
         memory,
-        pineconeEmbed,
       });
     } catch (error) {
+      console.log(error);
       res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "Interval server error." });

@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { setPatients } from '@/store/slices/patient.slice'
+import { setPatients } from '@/store/slices/patients.slice'
 import type { RootState } from '@/store/store'
 import axiosInstance from '@/utils/axios'
 import { Trash, LoaderCircle } from 'lucide-react'
@@ -24,7 +24,7 @@ const DeletePatientDialog = ({ id }: Props) => {
   const [error, setError] = useState('')
 
   const dispatch = useDispatch()
-  const { patients } = useSelector((state: RootState) => state.patientReducer)
+  const { patients } = useSelector((state: RootState) => state.patientsReducer)
 
   const handleDelete = async () => {
     if (!id) return

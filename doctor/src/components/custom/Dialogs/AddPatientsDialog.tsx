@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { setPatients } from '@/store/slices/patient.slice'
+import { setPatients } from '@/store/slices/patients.slice'
 import type { RootState } from '@/store/store'
 import axiosInstance from '@/utils/axios'
 import { LoaderCircle, Plus } from 'lucide-react'
@@ -26,7 +26,7 @@ const AddPatientsDialog = () => {
   const dispatch = useDispatch()
 
   const { admin } = useSelector((state: RootState) => state.adminReducer)
-  const { patients } = useSelector((state: RootState) => state.patientReducer)
+  const { patients } = useSelector((state: RootState) => state.patientsReducer)
 
   const handleRegister = async () => {
     if (!email || !password || !name) {

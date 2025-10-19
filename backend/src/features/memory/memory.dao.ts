@@ -16,6 +16,10 @@ class MemoryDAO {
       $set: { images: urls },
     });
   }
+
+  async getMemoriesByPatient(id: string) {
+    return await Memory.find({ patient: id });
+  }
 }
 
 export default new MemoryDAO();

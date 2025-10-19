@@ -2,8 +2,8 @@ import AddPatientsDialog from '@/components/custom/Dialogs/AddPatientsDialog'
 import DeletePatientDialog from '@/components/custom/Dialogs/DeletePatientDialog'
 import { Button } from '@/components/ui/button'
 import type { RootState } from '@/store/store'
-import { createFileRoute } from '@tanstack/react-router'
-import { Plus, Trash } from 'lucide-react'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { Plus } from 'lucide-react'
 import { useSelector } from 'react-redux'
 
 export const Route = createFileRoute('/admin/_layout/dashboard')({
@@ -11,8 +11,15 @@ export const Route = createFileRoute('/admin/_layout/dashboard')({
 })
 
 function Dashboard() {
-  const { patients } = useSelector((state: RootState) => state.patientReducer)
+  const { patients } = useSelector((state: RootState) => state.patientsReducer)
+  const router = useRouter()
 
+  const handlePatientNavigate = (patient: any) => {
+    router.navigate({
+      to: '/admin/$patient',
+      params: { patient: patient._id },
+    })
+  }
   return (
     <div className="p-6">
       {/* Header */}
@@ -21,7 +28,6 @@ function Dashboard() {
 
         <AddPatientsDialog />
       </div>
-
       {/* Patients Table */}
       {patients && patients.length > 0 ? (
         <div className="overflow-x-auto rounded-md border">
@@ -47,6 +53,7 @@ function Dashboard() {
                   <td className="px-4 py-2">{patient.memories?.length ?? 0}</td>
                   <td className="px-4 py-2 flex items-center gap-2">
                     <Button
+                      onClick={() => handlePatientNavigate(patient)}
                       variant="outline"
                       size="sm"
                       className="cursor-pointer"

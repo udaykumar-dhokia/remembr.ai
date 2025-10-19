@@ -18,6 +18,7 @@ import { Route as AuthLayoutLoginRouteImport } from './routes/auth/_layout.login
 import { Route as AuthLayoutAdminregisterRouteImport } from './routes/auth/_layout.adminregister'
 import { Route as AuthLayoutAdminloginRouteImport } from './routes/auth/_layout.adminlogin'
 import { Route as AdminLayoutDashboardRouteImport } from './routes/admin/_layout.dashboard'
+import { Route as AdminLayoutPatientRouteImport } from './routes/admin/_layout.$patient'
 
 const AuthRouteImport = createFileRoute('/auth')()
 const AdminRouteImport = createFileRoute('/admin')()
@@ -65,11 +66,17 @@ const AdminLayoutDashboardRoute = AdminLayoutDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AdminLayoutRoute,
 } as any)
+const AdminLayoutPatientRoute = AdminLayoutPatientRouteImport.update({
+  id: '/$patient',
+  path: '/$patient',
+  getParentRoute: () => AdminLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminLayoutRouteWithChildren
   '/auth': typeof AuthLayoutRouteWithChildren
+  '/admin/$patient': typeof AdminLayoutPatientRoute
   '/admin/dashboard': typeof AdminLayoutDashboardRoute
   '/auth/adminlogin': typeof AuthLayoutAdminloginRoute
   '/auth/adminregister': typeof AuthLayoutAdminregisterRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminLayoutRouteWithChildren
   '/auth': typeof AuthLayoutRouteWithChildren
+  '/admin/$patient': typeof AdminLayoutPatientRoute
   '/admin/dashboard': typeof AdminLayoutDashboardRoute
   '/auth/adminlogin': typeof AuthLayoutAdminloginRoute
   '/auth/adminregister': typeof AuthLayoutAdminregisterRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/admin/_layout': typeof AdminLayoutRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
   '/auth/_layout': typeof AuthLayoutRouteWithChildren
+  '/admin/_layout/$patient': typeof AdminLayoutPatientRoute
   '/admin/_layout/dashboard': typeof AdminLayoutDashboardRoute
   '/auth/_layout/adminlogin': typeof AuthLayoutAdminloginRoute
   '/auth/_layout/adminregister': typeof AuthLayoutAdminregisterRoute
@@ -102,6 +111,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/admin/$patient'
     | '/admin/dashboard'
     | '/auth/adminlogin'
     | '/auth/adminregister'
@@ -111,6 +121,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/admin/$patient'
     | '/admin/dashboard'
     | '/auth/adminlogin'
     | '/auth/adminregister'
@@ -122,6 +133,7 @@ export interface FileRouteTypes {
     | '/admin/_layout'
     | '/auth'
     | '/auth/_layout'
+    | '/admin/_layout/$patient'
     | '/admin/_layout/dashboard'
     | '/auth/_layout/adminlogin'
     | '/auth/_layout/adminregister'
@@ -199,14 +211,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLayoutDashboardRouteImport
       parentRoute: typeof AdminLayoutRoute
     }
+    '/admin/_layout/$patient': {
+      id: '/admin/_layout/$patient'
+      path: '/$patient'
+      fullPath: '/admin/$patient'
+      preLoaderRoute: typeof AdminLayoutPatientRouteImport
+      parentRoute: typeof AdminLayoutRoute
+    }
   }
 }
 
 interface AdminLayoutRouteChildren {
+  AdminLayoutPatientRoute: typeof AdminLayoutPatientRoute
   AdminLayoutDashboardRoute: typeof AdminLayoutDashboardRoute
 }
 
 const AdminLayoutRouteChildren: AdminLayoutRouteChildren = {
+  AdminLayoutPatientRoute: AdminLayoutPatientRoute,
   AdminLayoutDashboardRoute: AdminLayoutDashboardRoute,
 }
 

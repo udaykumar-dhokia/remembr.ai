@@ -31,6 +31,10 @@ class PatientDAO {
     const deletedPatient = await Patient.findByIdAndDelete(id);
     return deletedPatient;
   }
+
+  async getPatient(id: string) {
+    return await Patient.findById(id);
+  }
 }
 
 export default new PatientDAO();

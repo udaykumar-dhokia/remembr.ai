@@ -1,30 +1,49 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
+type Memory = {
+  _id?: string
+  patient: string
+  doctor: string
+  vectorId: string
+  text: string
+  images: []
+}
+
 type Patient = {
   _id?: string
   name: string
   email: string
   password: string
-  memories?: any[]
+  memories?: Memory[]
 }
 
 interface IPatients {
-  patients: Patient[] | null
+  patient: Patient | null
 }
 
 const initialState: IPatients = {
-  patients: null,
+  patient: null,
 }
 
-const patientSlice = createSlice({
+const patientsSlice = createSlice({
   name: 'patient',
   initialState,
   reducers: {
-    setPatients: (state, action: PayloadAction<Patient[]>) => {
-      state.patients = action.payload
+    setPatient: (state, action: PayloadAction<Patient>) => {
+      state.patient = action.payload
+    },
+    resetPatient: (state) => {
+      state.patient = null
+    },
+    addMemory: (state, action: PayloadAction<Memory>) => {
+      if (!state.patient) return
+      if (!state.patient.memories) {
+        state.patient.memories = []
+      }
+      state.patient.memories.push(action.payload)
     },
   },
 })
 
-export const { setPatients } = patientSlice.actions
-export default patientSlice.reducer
+export const { setPatient, addMemory } = patientsSlice.actions
+export default patientsSlice.reducer

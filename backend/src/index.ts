@@ -9,6 +9,7 @@ import connectDatabase from "./config/db.config";
 import AuthRoutes from "./features/auth/auth.routes";
 import DoctorRoutes from "./features/user/doctor/doctor.routes";
 import PatientRoutes from "./features/user/patient/patient.routes";
+import MemoryRoutes from "./features/memory/memory.routes";
 
 const PORT = process.env.PORT;
 
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", AuthRoutes);
 app.use("/api/doctor", DoctorRoutes);
 app.use("/api/patient", PatientRoutes);
+app.use("/api/memory", MemoryRoutes);
 
 server.listen(PORT, () => {
   console.log("🟢 Server is up & running...");
