@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux'
 import Loader from '@/components/custom/Loader'
 import AddMemoryDialog from '@/components/custom/Dialogs/AddMemoryDialog'
 import { persistPatientWithMemories } from '@/utils/auth'
+import { useState } from 'react'
+import ViewMemoryDialog from '@/components/custom/Dialogs/ViewMemoryDialog'
 
 export const Route = createFileRoute('/admin/_layout/$patient')({
   loader: async ({ params }) => {
@@ -20,7 +22,16 @@ export const Route = createFileRoute('/admin/_layout/$patient')({
 
 function PatientHome() {
   const { patient } = useSelector((state: RootState) => state.patientReducer)
-  console.log(patient?.memories)
+  const [selectedMemory, setSelectedMemory] = useState<
+    null | (typeof patient.memories)[0]
+  >(null)
+
+  const [dialogOpen, setDialogOpen] = useState(false)
+
+  const openMemory = (memory: (typeof patient.memories)[0]) => {
+    setSelectedMemory(memory)
+    setDialogOpen(true)
+  }
 
   return (
     <main className="w-full">
@@ -53,8 +64,9 @@ function PatientHome() {
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {patient.memories.map((memory, index) => (
                 <Card
+                  onClick={() => openMemory(memory)}
                   key={memory._id || memory.vectorId}
-                  className="border rounded-lg shadow-sm"
+                  className="border rounded-lg shadow-sm hover:cursor-pointer"
                 >
                   <CardHeader>
                     <CardTitle className="text-base font-semibold text-gray-800">
@@ -93,6 +105,12 @@ function PatientHome() {
           </div>
         )}
       </div>
+
+      <ViewMemoryDialog
+        memory={selectedMemory}
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+      />
     </main>
   )
 }

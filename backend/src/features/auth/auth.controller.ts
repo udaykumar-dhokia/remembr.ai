@@ -28,7 +28,7 @@ const AuthController = {
     }
   },
 
-  login: async (req, res) => {
+  loginDoctor: async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(403).json({ message: "Missing required fields." });
@@ -80,6 +80,42 @@ const AuthController = {
         .json({ message: "Patient registered successfully.", user });
     } catch (error) {
       res.status(500).json({ message: "Interval server error." });
+    }
+  },
+
+  loginPatient: async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(403).json({ message: "Missing required fields." });
+    }
+
+    try {
+      const patient = await patientDao.getByEmail(email);
+      if (!patient) {
+        return res.status(401).json({ message: "Invalid credentials." });
+      }
+
+      const isMatch = await hash.compare(password, patient.password.toString());
+      if (!isMatch) {
+        return res.status(401).json({ message: "Invalid credentials." });
+      }
+
+      const token = await jwt.generate(patient._id.toString());
+
+      return res.status(200).json({
+        message: "Patient logged in successfully.",
+        token,
+        patient: {
+          _id: patient._id,
+          name: patient.name,
+          email: patient.email,
+          doctor: patient.doctor,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Internal server error." });
     }
   },
 };
