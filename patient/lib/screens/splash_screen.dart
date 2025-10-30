@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:patient/provider/auth_provider.dart';
 import 'package:patient/screens/auth/login_screen.dart';
-import 'package:patient/screens/home_screen.dart';
-import 'package:patient/services/auth_services.dart';
+import 'package:patient/widgets/bottom_bar.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,10 +12,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final AuthService authService = AuthService(
-    baseUrl: 'http://localhost:3000/api',
-  );
-
   @override
   void initState() {
     super.initState();
@@ -22,14 +19,17 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkAuth() async {
-    await Future.delayed(const Duration(seconds: 2));
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    await Future.delayed(const Duration(seconds: 1));
 
-    final user = await authService.persistPatient();
+    await authProvider.persist();
 
-    if (user != null) {
+    if (!mounted) return;
+
+    if (authProvider.isAuthenticated) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => HomeScreen()),
+        MaterialPageRoute(builder: (_) => BottomBar()),
       );
     } else {
       Navigator.pushReplacement(

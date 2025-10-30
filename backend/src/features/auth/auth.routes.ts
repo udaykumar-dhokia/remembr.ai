@@ -11,5 +11,6 @@ router.get("/doctor/persist", authMiddleware, AuthController.persist);
 // Patient Routes
 router.post("/patient/register", AuthController.registerPatient);
 router.post("/patient/login", AuthController.loginPatient);
+router.get("/patient/persist", AuthController.persistPatient);
 
 export default router;

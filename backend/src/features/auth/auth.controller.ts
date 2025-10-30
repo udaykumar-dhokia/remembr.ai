@@ -118,5 +118,46 @@ const AuthController = {
       return res.status(500).json({ message: "Internal server error." });
     }
   },
+
+  persistPatient: async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res
+          .status(HttpStatus.UNAUTHORIZED)
+          .json({ message: "Missing or invalid token." });
+      }
+
+      const token = authHeader.split(" ")[1];
+
+      const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+      if (!decoded || !decoded.id) {
+        return res
+          .status(HttpStatus.UNAUTHORIZED)
+          .json({ message: "Invalid token." });
+      }
+
+      const patient = await patientDao.getPatient(decoded.id);
+      if (!patient) {
+        return res
+          .status(HttpStatus.UNAUTHORIZED)
+          .json({ message: "Patient not found." });
+      }
+
+      return res.status(HttpStatus.OK).json({
+        user: {
+          _id: patient._id,
+          name: patient.name,
+          email: patient.email,
+          doctor: patient.doctor,
+        },
+      });
+    } catch (error) {
+      console.error("PersistPatient Error:", error);
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "Internal server error." });
+    }
+  },
 };
 export default AuthController;

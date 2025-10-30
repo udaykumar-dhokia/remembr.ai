@@ -57,7 +57,7 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    final url = Uri.parse('$baseUrl/auth/loginPatient');
+    final url = Uri.parse('$baseUrl/auth/patient/login');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -70,6 +70,7 @@ class AuthService {
       await _saveToken(data['token']);
       await prefs.setString('id', data["patient"]["_id"]);
       await prefs.setString("email", data["patient"]["email"]);
+      await prefs.setString("name", data["patient"]["name"]);
       return data;
     } else {
       throw Exception(data['message'] ?? 'Login failed');
@@ -79,9 +80,10 @@ class AuthService {
   /// Persist logged-in patient (get user from token)
   Future<Map<String, dynamic>?> persistPatient() async {
     final token = await _getToken();
+    print(token);
     if (token == null) return null;
 
-    final url = Uri.parse('$baseUrl/auth/persist');
+    final url = Uri.parse('$baseUrl/auth/patient/persist');
     final response = await http.get(
       url,
       headers: {
