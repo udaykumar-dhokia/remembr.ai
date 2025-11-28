@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient/provider/auth_provider.dart';
 import 'package:patient/screens/auth/login_screen.dart';
+import 'package:patient/screens/welcome_screen.dart';
 import 'package:patient/widgets/bottom_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (authProvider.isAuthenticated) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => BottomBar()),
+        MaterialPageRoute(builder: (_) => WelcomeScreen()),
       );
     } else {
       Navigator.pushReplacement(

@@ -3,7 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:patient/constants/colors.dart';
+import 'package:patient/screens/chat_screen.dart';
+import 'package:patient/screens/family_screen.dart';
 import 'package:patient/screens/home_screen.dart';
+import 'package:patient/screens/memory_screen.dart';
 import 'package:patient/screens/profile_screen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -18,8 +21,9 @@ class _BottomBarState extends State<BottomBar> {
 
   final List<Widget> _tabs = const [
     HomeScreen(),
-    HomeScreen(),
-    HomeScreen(),
+    ChatScreen(),
+    FamilyScreen(),
+    MemoryScreen(),
     ProfileScreen(),
   ];
 
@@ -37,11 +41,11 @@ class _BottomBarState extends State<BottomBar> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
             child: GNav(
               textStyle: GoogleFonts.barlow(color: AppColors.white),
               gap: 8,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               activeColor: Colors.white,
               color: Colors.black54,
               backgroundColor: Colors.white,
@@ -53,16 +57,16 @@ class _BottomBarState extends State<BottomBar> {
               },
               tabs: [
                 GButton(
-                  icon: IconData(4),
+                  icon: const IconData(4),
                   leading: HugeIcon(
-                    icon: HugeIcons.strokeRoundedHome03,
+                    icon: HugeIcons.strokeRoundedChatting01,
                     size: 18,
                     color: _selectedIndex == 0 ? Colors.white : Colors.black54,
                   ),
                   text: 'Home',
                 ),
                 GButton(
-                  icon: IconData(4),
+                  icon: const IconData(4),
                   leading: HugeIcon(
                     icon: HugeIcons.strokeRoundedChatBot,
                     size: 18,
@@ -71,20 +75,29 @@ class _BottomBarState extends State<BottomBar> {
                   text: 'Chat',
                 ),
                 GButton(
-                  icon: IconData(4),
+                  icon: const IconData(4),
                   leading: HugeIcon(
-                    icon: HugeIcons.strokeRoundedChatting01,
+                    icon: HugeIcons.strokeRoundedUserGroup,
                     size: 18,
                     color: _selectedIndex == 2 ? Colors.white : Colors.black54,
                   ),
-                  text: 'History',
+                  text: 'Family',
                 ),
                 GButton(
-                  icon: IconData(4),
+                  icon: const IconData(4),
+                  leading: HugeIcon(
+                    icon: HugeIcons.strokeRoundedBrain02,
+                    size: 18,
+                    color: _selectedIndex == 3 ? Colors.white : Colors.black54,
+                  ),
+                  text: 'Memories',
+                ),
+                GButton(
+                  icon: const IconData(4),
                   leading: HugeIcon(
                     icon: HugeIcons.strokeRoundedUser,
                     size: 18,
-                    color: _selectedIndex == 3 ? Colors.white : Colors.black54,
+                    color: _selectedIndex == 4 ? Colors.white : Colors.black54,
                   ),
                   text: 'Profile',
                 ),

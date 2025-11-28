@@ -1,13 +1,23 @@
 import "package:flutter/material.dart";
+import "package:flutter_dotenv/flutter_dotenv.dart";
 import "package:patient/provider/auth_provider.dart";
+import "package:patient/provider/memory_provider.dart";
 import "package:patient/screens/splash_screen.dart";
+import "package:patient/services/memory_services.dart";
 import "package:patient/widgets/bottom_bar.dart";
 import "package:provider/provider.dart";
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(
+          create: (_) => MemoryProvider(memoryService: MemoryService()),
+        ),
+      ],
       child: const MyApp(),
     ),
   );

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:patient/services/auth_services.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final AuthService _authService = AuthService(
-    baseUrl: 'http://172.16.255.157:3000/api',
-  );
+  final AuthService _authService = AuthService();
 
   Map<String, dynamic>? _user;
   bool _loading = false;

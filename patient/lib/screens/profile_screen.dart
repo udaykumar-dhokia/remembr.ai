@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:patient/constants/colors.dart';
 import 'package:patient/services/auth_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,9 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? _id;
   bool _loading = true;
 
-  final AuthService _authService = AuthService(
-    baseUrl: "http://172.16.255.157:3000/api",
-  );
+  final AuthService _authService = AuthService();
 
   @override
   void initState() {
@@ -32,7 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() => _loading = true);
 
     try {
-      // 1️⃣ Try fetching live data using the token
       final data = await _authService.persistPatient();
 
       if (data != null) {
@@ -103,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: CupertinoActivityIndicator())
           : SingleChildScrollView(
               padding: const EdgeInsets.all(24.0),
               child: Column(
@@ -112,11 +111,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // --- Avatar ---
                   CircleAvatar(
                     radius: 40,
-                    backgroundColor: AppColors.primary.withOpacity(0.2),
-                    child: const Icon(
-                      Icons.person_rounded,
+                    backgroundColor: AppColors.primary.withOpacity(0.1),
+                    child: HugeIcon(
+                      icon: HugeIcons.strokeRoundedUser03,
                       size: 50,
-                      color: Colors.grey,
+                      color: AppColors.grey,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -147,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.grey[50],
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.2),
@@ -177,15 +176,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton.icon(
-                      icon: const Icon(
-                        Icons.logout_rounded,
-                        color: Colors.white,
+                      icon: HugeIcon(
+                        icon: HugeIcons.strokeRoundedLogout05,
+                        size: 18,
+                        color: AppColors.white,
                       ),
                       label: Text(
                         "Logout",
                         style: GoogleFonts.barlow(
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
